@@ -8,6 +8,14 @@ import App from './App.vue'
 import VueRouter from 'vue-router'
 // import routerConfig from './router'
 
+
+//路由导航需要
+import InfoManage from './components/InfoManage.vue'
+
+//另一种引入方式
+const Login = require('./components/login.vue')
+// import Login from './components/login.vue'
+
 Vue.use(ElementUI)
 Vue.use(VueRouter)
 
@@ -22,7 +30,8 @@ const Bar = { template: '<div>bar</div>' }
 
 const routes = [
   { path: '/foo', component: Foo },
-  { path: '/bar', component: Bar }
+  { path: '/InfoManage', component: InfoManage },
+  { path: '/Login', component: Login }
 ]
 
 // 3. 创建 router 实例，然后传 `routes` 配置
@@ -40,4 +49,4 @@ new Vue({
 })
 
 //push可以定义默认路由页面
-router.push('/foo')
+router.push('/login')

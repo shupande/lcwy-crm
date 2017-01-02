@@ -1,18 +1,21 @@
 <template>
   <div id="app">
-    <hello></hello>
+    <!-- <hello></hello> -->
+    <login></login>
   </div>
 </template>
 
 <script>
 import Hello from './components/Hello'
+import Login from './components/login'
 // import InfoManage from './components/InfoManage'
 // import LeftNav from './components/LeftNav'
 
 export default {
   name: 'app',
   components: {
-    Hello
+    Hello,
+    Login
   }
 }
 </script>

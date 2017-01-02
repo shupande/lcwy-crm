@@ -38,9 +38,10 @@
             <el-submenu index="1">
                 <template slot="title"><i class="fa fa-address-card-o fa-lg" aria-hidden="true"></i>客户信息</template>
                 <el-menu-item-group>
-                    <template slot="title">管理</template>
-                    <el-menu-item index="1-1" to="/foo">新增</el-menu-item>
-                    <el-menu-item index="1-2"><router-link to="/bar">查询</router-link></el-menu-item>
+                  <el-submenu index="1-2">
+                    <template slot="title"><router-link to="/InfoManage">管理</router-link></template>
+                    <el-menu-item index="1-2-1"><router-link to="/foo"><i class="ion ion-person-add"></i>新增</router-link> </el-menu-item>
+                    </el-submenu>
                 </el-menu-item-group>
                 <el-menu-item-group title="南区">
                     <el-menu-item index="1-3">选项3</el-menu-item>
@@ -55,11 +56,13 @@
       </el-col>
 
       <!-- 路由跳转 -->
-      <router-view>
-        <!-- <div class="p-layout-inner">
-            <slot></slot>
-        </div> -->
-      </router-view>
+      <transition>
+          <router-view>
+          <!-- <div class="p-layout-inner">
+              <slot></slot>
+          </div> -->
+           </router-view>
+       </transition>
       
     </el-row>
 </template>
