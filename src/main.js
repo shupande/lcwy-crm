@@ -29,7 +29,7 @@ const Bar = { template: '<div>bar</div>' }
 
 
 const routes = [
-  { path: '/foo', component: Foo },
+  { path: '/foo', meta:{title: '测试'},component: Foo },
   { path: '/InfoManage', component: InfoManage },
   { path: '/Login', component: Login }
 ]
@@ -49,4 +49,4 @@ new Vue({
 })
 
 //push可以定义默认路由页面
-router.push('/login')
+router.push('/InfoManage')

@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-    <!-- <hello></hello> -->
-    <login></login>
+    <hello></hello>
+    <!-- <login></login> -->
+    <!-- <router-view></router-view> -->
   </div>
 </template>
 
