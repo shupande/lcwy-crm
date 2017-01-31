@@ -1,4 +1,3 @@
-//登陆验证 
 /* globals localStorage */
 function pretendRequest (email, pass, cb) {
   setTimeout(() => {
@@ -12,7 +11,6 @@ function pretendRequest (email, pass, cb) {
     }
   }, 0)
 }
-
 
 export default {
   login (email, pass, cb) {
@@ -34,6 +32,20 @@ export default {
         this.onChange(false)
       }
     })
+  },
+
+  getToken () {
+    return localStorage.token
+  },
+
+  logout (cb) {
+    delete localStorage.token
+    if (cb) cb()
+    this.onChange(false)
+  },
+
+  loggedIn () {
+    return !!localStorage.token
   },
 
   onChange () {}

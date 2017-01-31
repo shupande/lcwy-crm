@@ -2,13 +2,13 @@
   <div class="page-login">
     <div class="login-box">
       <div class="login-title">
-        <h3>联鑫创展CRM</h3>
+        <h3>联鑫创展</h3>
         <p>登录</p>
       </div>
       <div class="login-form">
         <el-form label-position="top" :model="loginForm" :rules="loginRule" ref="loginForm">
           <el-form-item prop="username">
-            <el-input placeholder="用户名" type="text" v-model="loginForm.username" auto-complete="off"></el-input>
+            <el-input placeholder="登录名" type="text" v-model="loginForm.username" auto-complete="off"></el-input>
           </el-form-item>
           <el-form-item prop="pass">
             <el-input placeholder="密码" type="password" v-model="loginForm.pass" auto-complete="off"></el-input>
@@ -33,7 +33,7 @@ export default {
         username: [
           {
             require: true,
-            message: '请填写员工号'
+            message: '请填写用户名'
           }
         ]
       },
@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     goDashboard () {
-      this.$router.push('InfoManage')
+      this.$router.push('user')
     },
     handleSubmit () {
       this.$refs.loginForm.validate((valid) => {
@@ -68,7 +68,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="less" scoped>
 html, body, .page-login {
   min-height: 100vh;
 }
@@ -80,15 +80,15 @@ html, body, .page-login {
   color: #2a323c;
   text-align: center;
   padding: 20px 0 0;
-}
-.login-title h3 {
+  h3 {
     margin: 0 0 30px 0;
   }
-.login-title p {
+  p {
     font-weight: bold;
     color: #898989;
     margin: 0;
   }
+}
 .login-box {
   margin: 0 auto;
   max-width: 400px;
@@ -97,10 +97,11 @@ html, body, .page-login {
 }
 .login-form {
   padding: 20px 30px;
-  border: 0; 
-}
-.login-form button {
+  border: 0;
+
+  button {
     display: block;
     width: 100%;
   }
+}
 </style>
