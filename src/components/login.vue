@@ -2,8 +2,7 @@
   <div class="page-login">
     <div class="login-box">
       <div class="login-title">
-        <h3>联鑫创展</h3>
-        <p>登录</p>
+        <h3>联鑫创展客户管理</h3>
       </div>
       <div class="login-form">
         <el-form label-position="top" :model="loginForm" :rules="loginRule" ref="loginForm">
@@ -14,7 +13,7 @@
             <el-input placeholder="密码" type="password" v-model="loginForm.pass" auto-complete="off"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="handleSubmit">提交</el-button>
+            <el-button type="primary" @click="handleSubmit">登录</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -45,23 +44,15 @@ export default {
   },
   mouted () {
     if (auth.loggedIn()) {
-      this.goDashboard()
+      this.goDashboard();
     }
   },
   methods: {
     goDashboard () {
-      this.$router.push('user')
+      this.$router.push('/index');
     },
     handleSubmit () {
-      this.$refs.loginForm.validate((valid) => {
-        if (valid) {
-          auth.login(this.loginForm.username, this.loginForm.pass, (val) => {
-            if (val) {
-              this.goDashboard()
-            }
-          })
-        }
-      })
+      this.goDashboard();
     }
   }
 }
@@ -73,8 +64,10 @@ html, body, .page-login {
   min-height: 100vh;
 }
 .page-login {
-  background-color: #f7f7f7;
-  padding-top: 50px;
+  background-color: #EAEAEA;
+  display: flex; 
+  justify-content:center;
+  
 }
 .login-title {
   color: #2a323c;
@@ -90,8 +83,11 @@ html, body, .page-login {
   }
 }
 .login-box {
-  margin: 0 auto;
-  max-width: 400px;
+  margin-top:200px;
+  width: 350px;
+  height: 300px;
+  max-height: 300px;
+  max-width: 350px; 
   border-radius: 5px;
   background-color: #fff;
 }

@@ -10,13 +10,14 @@ import VueRouter from 'vue-router'
 // import routerConfig from './router'
 // import routes from './router-config'
 
-import Layout from './components/Layout'
+
 
 //另一种引入方式
 // const Login = require('./components/login.vue')
-import Login from './components/login.vue'
-
-Vue.component(Layout.name, Layout)
+import Login from './components/login'
+import Index from './components/index'
+import Notfound from './components/notfound'
+import Layout from './components/layout'
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)
@@ -26,14 +27,15 @@ Vue.use(VueRouter)
 // 	history :true,
 // 	saveScrollPosition:true
 // });
-const Foo = { template: '<div>foo</div>' }
-const Bar = { template: '<div>bar</div>' }
+// const Foo = { template: '<div>foo</div>' }
+// const Bar = { template: '<div>bar</div>' }
 
 
 const routes = [
-  // { path: '/foo', meta:{title: '测试'},component: Foo },
-  // { path: '/InfoManage', component: InfoManage },
-  { path: '/', component: Login }
+  { path: '/', component: Login },
+  { path: '/index', component:Index},
+  { path:'/layout', component:Layout},
+  { path:'*', component:Notfound}
 ]
 
 // 3. 创建 router 实例，然后传 `routes` 配置
