@@ -1,7 +1,7 @@
 const nav = [
   {
-    name: 'customer',
-    path: '/customer',
+    name: 'user',
+    path: '/user',
     icon: 'address-card-o fa-lg',
     text: '客户管理'
   }, {

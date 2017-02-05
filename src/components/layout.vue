@@ -5,7 +5,7 @@
                 <span class="full"><i class="fa fa-windows fa-2x" aria-hidden="true"></i>联鑫创展客户管理<small>by shupan</small></span>
             </div>
             <div class="p-layout-nav">
-              <el-dropdown class="is-user">
+              <el-dropdown class="is-user" @command="handleDropdown">
               <span class="el-dropdown-link">
                 admin <i class="el-icon-caret-bottom el-icon--right"></i>
               </span>
@@ -15,9 +15,11 @@
             </el-dropdown>
           </div>
         </div>
-          <el-col :span="24" class="panel-center">
+        <div class="p-layout-body">
           <aside class="p-layout-sider">
-            <el-menu  default-active="1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
+            <el-menu default-active="user" class="el-menu-vertical-demo" 
+            :unique-opened="true" 
+            :router="true">
               <el-menu-item-group>
                   <el-menu-item :index="menu.name" v-for="menu in menus">
                       <i  v-if="menu.icon"  class="fa" v-bind:class="'fa fa-'+menu.icon" aria-hidden="true">  
@@ -26,11 +28,11 @@
                   </el-menu-item>
               </el-menu-item-group>
             </el-menu>
-            </aside>
-          </el-col>
-            <div class="p-layout-inner">
-              <slot></slot>
-            </div>
+          </aside>
+          <div class="p-layout-inner">
+            <slot></slot>  
+          </div>
+        </div>
       </el-row>
 </template>
 <script>
@@ -42,16 +44,24 @@ export default {
     
     data(){
       return{
-        menus
+        menus,
       }
     },
     methods: {
-        handleOpen(key, keyPath) {
-            console.log(key, keyPath);
-        },
-        handleClose(key, keyPath) {
-            console.log(key, keyPath);
+      //退出登录
+      handleDropdown(cmd) {
+        if(cmd=="logout"){
+          // console.log("success");
+            var _this = this;
+            this.$confirm('确认退出吗?', '提示', {
+              type: 'warning'
+            }).then(() => {
+              _this.$router.replace('/');
+            }).catch(() => {
+
+            });
         }
+      }
     }
 }
 </script>
@@ -64,8 +74,8 @@ export default {
     justify-content: space-between;*/
     position:fixed;
     width: 100%;
-    height: 70px;
-    line-height: 70px;
+    height: 60px;
+    line-height: 60px;
     background-color: #03a9f4;
     z-index: 101;
     color: #fff;
@@ -77,13 +87,12 @@ export default {
 .panel-center{
   position:absolute;
   width:100px;
-  top:70px;
+  top:60px;
   bottom:0px;
   z-index:100;
 }
 i{
   margin-right:5px;
-  
 }
 .p-layout-name{
   float:left;
@@ -93,17 +102,29 @@ i{
     margin-left:5px;
   }
 }
- .p-layout-nav{
-  float:right;
-  padding-right:20px;
- }
- .p-layout-sider{
-  position:fixed;
-  background-color:#eef1f6;
-  top:70px;
-  width:230px;
-  height:100%;
-  overflow-x:hidden;
-  
- }
+.p-layout-nav{
+float:right;
+padding-right:20px;
+}
+.p-layout-sider{
+position:fixed;
+background-color:#eef1f6;
+top:60px;
+width:230px;
+height:100%;
+overflow-x:hidden;
+}
+.p-layout-inner{
+padding: 10px;
+background: #fff;
+border-radius: 3px;
+margin-top: 10px;
+}
+.p-layout-body {
+    position: absolute;
+    width: 100%;
+    top: 70px;
+    bottom: 0;
+    z-index: 100;
+}
 </style>
