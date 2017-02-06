@@ -30,7 +30,7 @@
             </el-menu>
           </aside>
           <div class="p-layout-inner">
-            <slot></slot>  
+              <slot></slot> 
           </div>
         </div>
       </el-row>
@@ -84,13 +84,6 @@ export default {
       cursor:pointer;
     }
 }
-.panel-center{
-  position:absolute;
-  width:100px;
-  top:60px;
-  bottom:0px;
-  z-index:100;
-}
 i{
   margin-right:5px;
 }
@@ -107,24 +100,56 @@ float:right;
 padding-right:20px;
 }
 .p-layout-sider{
-position:fixed;
-background-color:#eef1f6;
-top:60px;
-width:230px;
-height:100%;
-overflow-x:hidden;
+  width: 230px;
+  background-color: #eef1f6;
+  position: fixed;
+  top: 60px;
+  left: 0;
+  height: 100%;
+  transition: all 0.3s ease;
+  z-index: 102;
+}
+.p-layout-panel{
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:230px;
+  right:0;
+  background: blue;
+  transition: all 0.3s ease;
+  width: auto;
+}
+.p-layout-content{
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  background: blue;
+  transition: all 0.3s ease;
+  width: auto;
+  //overflow-x: hidden;
+  overflow-y: scroll;
 }
 .p-layout-inner{
-padding: 10px;
-background: #fff;
-border-radius: 3px;
-margin-top: 10px;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    left: 230px;
+    //overflow-y: scroll;
+    padding: 15px;
+    z-index:102;
 }
 .p-layout-body {
+    background:blue;
     position: absolute;
-    width: 100%;
-    top: 70px;
-    bottom: 0;
-    z-index: 100;
+    top: 60px;
+    width:100%;
+    bottom: 0px;
+    //overflow: hidden;
+    float: left;
+    box-sizing: border-box;
+    z-index:100;
 }
 </style>
