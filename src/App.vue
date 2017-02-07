@@ -15,4 +15,11 @@ body{
   bottom: 0px;
   width: 100px;
 }
+.el-pagination{
+	padding: 0px;
+	margin-top: 10px;
+}
+.el-textarea {
+    display:block ;
+}
 </style>

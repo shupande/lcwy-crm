@@ -1,12 +1,12 @@
 <template>
     <p-layout>
-        <section ref="user">
+        <section>
             <!--工具条-->
             <template>
                 <el-col :span="24" class="toolbar">
                     <el-form :inline="true" :model="filters">
                         <el-form-item>
-                            <el-input v-model="filters.name" placeholder="姓名"></el-input>
+                            <el-input v-model="filters.name" placeholder="姓名/公司名"></el-input>
                         </el-form-item>
                         <el-form-item>
                             <el-button type="primary" v-on:click="getUsers">查询</el-button>
@@ -22,15 +22,15 @@
                 <el-table :data="users" highlight-current-row v-loading="listLoading" style="width: 100%;">
                     <el-table-column type="index" width="60">
                     </el-table-column>
-                    <el-table-column prop="name" label="姓名" width="120" sortable>
+                    <el-table-column prop="company" label="公司名" width="220" sortable>
                     </el-table-column>
-                    <el-table-column prop="sex" label="性别" width="100" :formatter="formatSex" sortable>
+                    <el-table-column prop="sex" label="性别" width="70" :formatter="formatSex" sortable>
                     </el-table-column>
-                    <el-table-column prop="age" label="年龄" width="100" sortable>
+                    <el-table-column prop="name" label="联系人" width="90" >
                     </el-table-column>
-                    <el-table-column prop="birth" label="生日" width="120" sortable>
+                    <el-table-column prop="addr" label="收货地址" min-width="200" sortable>
                     </el-table-column>
-                    <el-table-column prop="addr" label="地址" min-width="180" sortable>
+                    <el-table-column prop="phone" label="电话" min-width="120" >
                     </el-table-column>
                     <el-table-column inline-template :context="_self" label="操作" width="150">
                         <span>
@@ -47,27 +47,23 @@
             </el-col>
             <!--编辑界面-->
             <el-dialog :title="editFormTtile" v-model="editFormVisible" :close-on-click-modal="false">
-                <el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
-                    <el-form-item label="姓名" prop="name">
+                <el-form :model="editForm" label-width="90px" :rules="editFormRules" ref="editForm">
+                    <el-form-item label="公司名" prop="company" v-if="showComEdit">
+                        <el-input v-model="editForm.company" auto-complete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label="联系人" prop="name">
                         <el-input v-model="editForm.name" auto-complete="off"></el-input>
                     </el-form-item>
                     <el-form-item label="性别">
-                        <!--<el-select v-model="editForm.sex" placeholder="请选择性别">
-              <el-option label="男" :value="1"></el-option>
-              <el-option label="女" :value="0"></el-option>
-            </el-select>-->
                         <el-radio-group v-model="editForm.sex">
                             <el-radio class="radio" :label="1">男</el-radio>
                             <el-radio class="radio" :label="0">女</el-radio>
                         </el-radio-group>
                     </el-form-item>
-                    <el-form-item label="年龄">
-                        <el-input-number v-model="editForm.age" :min="0" :max="200"></el-input-number>
+                    <el-form-item label="联系电话" prop="phone">
+                        <el-input type="text" v-model.number="editForm.phone" ></el-input>
                     </el-form-item>
-                    <el-form-item label="生日">
-                        <el-date-picker type="date" placeholder="选择日期" v-model="editForm.birth"></el-date-picker>
-                    </el-form-item>
-                    <el-form-item label="地址">
+                    <el-form-item label="收货地址" prop="addr">
                         <el-input type="textarea" v-model="editForm.addr"></el-input>
                     </el-form-item>
                 </el-form>
@@ -97,16 +93,17 @@ export default {
                 users: [],
                 total: 0,
                 page: 1,
+                showComEdit:false,
                 listLoading: false,
                 editFormVisible: false, //编辑界面显是否显示
                 editFormTtile: '编辑', //编辑界面标题
                 //编辑界面数据
                 editForm: {
                     id: 0,
+                    company:'',
                     name: '',
                     sex: -1,
-                    age: 0,
-                    birth: '',
+                    phone: '',
                     addr: ''
                 },
                 editLoading: false,
@@ -115,6 +112,11 @@ export default {
                     name: [{
                         required: true,
                         message: '请输入姓名',
+                        trigger: 'blur'
+                    }],
+                    addr: [{
+                        required: true,
+                        message: '请输入地址',
                         trigger: 'blur'
                     }]
                 }
@@ -170,14 +172,21 @@ export default {
             },
             //显示编辑界面
             handleEdit: function(row) {
+                //清空校验结果,防止点击新增导致validate后点编辑出现错误提示
+                if(this.$refs.editForm){
+                    this.$refs.editForm.resetFields();
+                }
+                //隐藏公司栏
+                this.showComEdit=false;
                 this.editFormVisible = true;
+                //填充
                 this.editFormTtile = '编辑';
                 this.editForm.id = row.id;
                 this.editForm.name = row.name;
                 this.editForm.sex = row.sex;
-                this.editForm.age = row.age;
-                this.editForm.birth = row.birth;
+                this.editForm.phone = row.phone;
                 this.editForm.addr = row.addr;
+                
             },
             //编辑 or 新增
             editSubmit: function() {
@@ -191,10 +200,10 @@ export default {
                             if (_this.editForm.id == 0) {
                                 //新增
                                 let para = {
+                                    company: _this.editForm.company,
                                     name: _this.editForm.name,
                                     sex: _this.editForm.sex,
-                                    age: _this.editForm.age,
-                                    birth: _this.editForm.birth == '' ? '' : util.formatDate.format(new Date(_this.editForm.birth), 'yyyy-MM-dd'),
+                                    phone: _this.editForm.phone,
                                     addr: _this.editForm.addr,
                                 };
                                 addUser(para).then((res) => {
@@ -208,6 +217,7 @@ export default {
                                     });
                                     _this.editFormVisible = false;
                                     _this.getUsers();
+
                                 });
                             } else {
                                 //编辑
@@ -215,8 +225,7 @@ export default {
                                     id: _this.editForm.id,
                                     name: _this.editForm.name,
                                     sex: _this.editForm.sex,
-                                    age: _this.editForm.age,
-                                    birth: _this.editForm.birth == '' ? '' : util.formatDate.format(new Date(_this.editForm.birth), 'yyyy-MM-dd'),
+                                    phone: _this.editForm.phone,
                                     addr: _this.editForm.addr,
                                 };
                                 editUser(para).then((res) => {
@@ -239,13 +248,14 @@ export default {
             //显示新增界面
             handleAdd: function() {
                 var _this = this;
+                this.showComEdit=true;
                 this.editFormVisible = true;
                 this.editFormTtile = '新增';
                 this.editForm.id = 0;
+                this.editForm.company='';
                 this.editForm.name = '';
                 this.editForm.sex = 1;
-                this.editForm.age = 0;
-                this.editForm.birth = '';
+                this.editForm.phone = '';
                 this.editForm.addr = '';
             }
         },
